@@ -106,13 +106,13 @@
   \questiontitle{NESecondary}{\ifx\relax#1\relax\else\quad #1\fi}%
 }{}
 
-\newenvironment{truefalse}
-  {\questiontitle{NEOrange}{正誤判定}}
-  {}
+\newenvironment{truefalse}[1][]{%
+  \questiontitle{NEPurple}{\ifx\relax#1\relax\else\quad #1\fi}%
+}{}
 
-\newenvironment{shortanswer}
-  {\questiontitle{NEGreen}{要件・定義・短答}}
-  {}
+\newenvironment{shortanswer}[1][]{%
+  \questiontitle{NEGreen}{\ifx\relax#1\relax\else\quad #1\fi}%
+}{}
 
 \newtcolorbox{answerbox}{
   enhanced,
