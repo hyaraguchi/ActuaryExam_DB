@@ -1,0 +1,228 @@
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{nenkinexam}[2026/10/02 Pension Actuary Exam Style for pLaTeX]
+
+\RequirePackage[dvipdfmx]{xcolor}
+\RequirePackage[dvipdfmx]{graphicx}
+\RequirePackage{tikz}
+\RequirePackage{tcolorbox}
+\RequirePackage{fancyhdr}
+\RequirePackage{lastpage}
+\RequirePackage[dvipdfmx]{hyperref}
+\RequirePackage{pgffor}
+
+
+\tcbuselibrary{skins,breakable}
+
+% ---------------------------------------------------------
+% Colors
+% ---------------------------------------------------------
+\definecolor{NEPrimary}{HTML}{173F5F}
+\definecolor{NESecondary}{HTML}{20639B}
+\definecolor{NEAccent}{HTML}{3CAEA3}
+\definecolor{NEOrange}{HTML}{F6A01A}
+\definecolor{NEGreen}{HTML}{4C956C}
+\definecolor{NEPurple}{HTML}{765AA6}
+\definecolor{NERed}{HTML}{D95D5D}
+\definecolor{NEGray}{HTML}{68737D}
+\definecolor{NEBorder}{HTML}{D9E0E6}
+
+% ---------------------------------------------------------
+% Section 
+% ---------------------------------------------------------
+\renewcommand{\thesection}{第\arabic{section}章}
+\renewcommand{\thesubsection}{第\arabic{subsection}節}
+
+% ---------------------------------------------------------
+% Cover
+% ---------------------------------------------------------
+\newcommand{\ExamCover}{%
+  \thispagestyle{empty}%
+  \begin{tikzpicture}[remember picture,overlay]
+%    \draw[NEPrimary,line width=1.0pt]
+%      ([xshift=2.0cm,yshift=-2.65cm]current page.north west)
+%      -- ([xshift=-2.0cm,yshift=-2.65cm]current page.north east);
+%    \draw[NEBorder,line width=0.45pt]
+%      ([xshift=2.0cm,yshift=-2.82cm]current page.north west)
+%      -- ([xshift=-2.0cm,yshift=-2.82cm]current page.north east);
+%    \node[anchor=west,text=NEGray,font=\sffamily\small\bfseries]
+%      at ([xshift=2.0cm,yshift=-2.25cm]current page.north west)
+%      {ACTUARIAL EXAMINATION};
+    \node[align=center,text=NEPrimary,font=\sffamily\bfseries]
+      at ([yshift=1.15cm]current page.center)
+      {\fontsize{28pt}{34pt}\selectfont アクチュアリー試験};
+    \node[align=center,text=NEGray,font=\sffamily\bfseries]
+      at ([yshift=0.05cm]current page.center)
+      {\fontsize{15pt}{20pt}\selectfont 年金2次};
+    \node[align=center,text=NEPrimary,font=\sffamily\bfseries]
+      at ([yshift=-1.15cm]current page.center)
+      {\fontsize{20pt}{27pt}\selectfont DB問題集};
+
+%    \draw[NEBorder,line width=0.6pt]
+%      ([xshift=3.0cm,yshift=-6.15cm]current page.north west)
+%      -- ([xshift=-3.0cm,yshift=-6.15cm]current page.north east);
+%    \node[align=center,text=NEGray,font=\sffamily]
+%      at ([yshift=-7.05cm]current page.north)
+%      {\small 確定給付企業年金法・厚生年金保険法\\[2pt]
+%       条文・制度・要件・正誤・穴埋め};
+    \node[anchor=east,text=NEGray,font=\sffamily\footnotesize]
+      at ([xshift=-2.0cm,yshift=1.55cm]current page.south east)
+      {ver2026.0.0};
+  \end{tikzpicture}%
+  \null
+  \clearpage
+}
+
+% ---------------------------------------------------------
+% Basic question components
+% ---------------------------------------------------------
+\newcounter{question}
+
+\newcommand{\questionnumber}{%
+  \stepcounter{question}\arabic{question}%
+}
+
+\newcommand{\questiontitle}[2]{%
+  \begin{tcolorbox}[
+    enhanced,
+    colback=white,
+    colframe=#1,
+    boxrule=0pt,
+    borderline west={4pt}{0pt}{#1},
+    arc=2mm,
+    left=10pt,
+    right=10pt,
+    top=7pt,
+    bottom=7pt
+  ]
+  {\sffamily\bfseries\color{#1}QUESTION \questionnumber}
+  \hfill
+  {\sffamily\small\color{NEGray}#2}
+  \end{tcolorbox}
+}
+
+
+\newenvironment{fillblank}[1][]{%
+  \questiontitle{NESecondary}{\ifx\relax#1\relax\else\quad #1\fi}%
+}{}
+
+\newenvironment{truefalse}
+  {\questiontitle{NEOrange}{正誤判定}}
+  {}
+
+\newenvironment{shortanswer}
+  {\questiontitle{NEGreen}{要件・定義・短答}}
+  {}
+
+\newtcolorbox{answerbox}{
+  enhanced,
+  breakable,
+  colback=NEPrimary!4,
+  colframe=NEPrimary,
+  borderline west={5pt}{0pt}{NEPrimary},
+  boxrule=0pt,
+  arc=2mm,
+  left=10pt,
+  right=10pt,
+  top=8pt,
+  bottom=8pt,
+  title={\sffamily\bfseries\color{NEBorder}解答}
+}
+
+\newtcolorbox{explanationbox}{
+  enhanced,
+  breakable,
+  colback=NEGray!5,
+  colframe=NEBorder,
+  boxrule=.6pt,
+  arc=2mm,
+  left=10pt,
+  right=10pt,
+  top=8pt,
+  bottom=8pt,
+  title={\sffamily\bfseries\color{NESecondary}メモ}
+}
+
+
+\newtcolorbox{InyouJobunbox}{
+  enhanced,
+  breakable,
+  colback=NEGray!5,
+  colframe=NESecondary,
+  boxrule=.6pt,
+  arc=2mm,
+  left=10pt,
+  right=10pt,
+  top=8pt,
+  bottom=8pt,
+  title={\sffamily\bfseries\color{NEBorder}対象条文}
+}
+
+
+% ---------------------------------------------------------
+% Japanese legal-text citation
+% ---------------------------------------------------------
+% Hierarchical indentation modeled on Japanese legal documents.
+\newcommand{\lawbook}[2]{%
+  \noindent\hspace*{0em}{#1}\quad #2\\}
+\newcommand{\lawchapter}[2]{%
+  \noindent\hspace*{1.5em}{#1}\quad #2\\}
+\newcommand{\lawsection}[2]{%
+  \noindent\hspace*{3em}{#1}\quad #2\\}
+\newcommand{\lawsubsection}[2]{%
+  \noindent\hspace*{4.5em}{#1}\quad #2\\}
+\newcommand{\lawdivision}[2]{%
+  \noindent\hspace*{6em}{#1}\quad #2\\}
+
+% #1 = article number, #2 = article heading
+% 条文番号の幅を保存する長さ
+\newlength{\lawlabelwidth}
+
+\newenvironment{lawarticle}[2]{%
+  \par\medskip
+  \noindent
+  \if\relax\detokenize{#2}\relax
+  \else
+    （#2）\par
+  \fi
+  %
+  % 条文番号＋空白の実際の幅を測る
+  \settowidth{\lawlabelwidth}{#1\quad}%
+  %
+  % 2行目以降を条文番号の幅だけ字下げ
+  \hangindent= 1em %\lawlabelwidth
+  \hangafter=1
+  %
+  % 1行目には条文番号を配置
+  \makebox[\lawlabelwidth][l]{#1\quad}%
+  \ignorespaces
+}{%
+  \par\medskip
+}
+
+% Paragraph within an article: ２, ３, ...
+\newcommand{\lawparagraph}[1]{%
+  \par\smallskip
+  \noindent
+  \hangindent=1em
+  \hangafter=1
+  \makebox[2em][l]{#1}%
+  \ignorespaces}
+
+% Numbered item: 一, 二, 三, ...
+\newcommand{\lawitem}[1]{%
+  \par\smallskip
+  \noindent
+  \hspace*{1.0em}%
+  \hangindent=2em
+  \hangafter=1
+  \makebox[2em][l]{#1}%
+  \ignorespaces}
+
+\newenvironment{lawstructure}{%
+  \par\smallskip
+  \begingroup
+  \setlength{\parindent}{0pt}
+  \setlength{\parskip}{0pt}
+}{%
+  \par\endgroup\smallskip}
