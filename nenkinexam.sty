@@ -32,6 +32,7 @@
 % ---------------------------------------------------------
 \renewcommand{\thesection}{第\arabic{section}章}
 \renewcommand{\thesubsection}{第\arabic{subsection}節}
+\renewcommand{\thesubsubsection}{第\arabic{subsection}.\arabic{subsubsection}節}
 
 % ---------------------------------------------------------
 % Cover
@@ -215,6 +216,17 @@
   \noindent
   \hspace*{1.0em}%
   \hangindent=2em
+  \hangafter=1
+  \makebox[2em][l]{#1}%
+  \ignorespaces}
+
+% 字下げ指定可能なlawitem
+% 法令解釈とかで使用
+\newcommand{\hangedlawitem}[2]{%
+  \par\smallskip
+  \noindent
+  \hspace*{#2em}%
+  \hangindent=\dimexpr #2em + 1em\relax
   \hangafter=1
   \makebox[2em][l]{#1}%
   \ignorespaces}

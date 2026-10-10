@@ -14,6 +14,12 @@
 \usepackage{enumerate}
 \usepackage{color}
 \usepackage{comment}
+\usepackage{url}
+\usepackage{tocloft}
+
+% 目次の体裁を整える
+\setlength{\cftsecnumwidth}{4em}
+\setlength{\cftsubsecnumwidth}{4em}
 
 %ページ番号
 \pagestyle{plain}
@@ -34,3 +40,15 @@
 \input{chap/chap2.tex}
 
 \end{document}
+
+\begin{comment}
+  %コピー用
+\begin{fillblank}
+  \noindent \textbf{◯DB則}
+  \begin{lawstructure}
+    \begin{lawarticle}{第三条}{確定給付企業年金の実施}
+      
+    \end{lawarticle}
+  \end{lawstructure}
+\end{fillblank}
+\end{comment}
