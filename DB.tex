@@ -1,0 +1,54 @@
+
+\documentclass[a4paper,11pt,dvipdfmx]{jsarticle}
+
+\usepackage[
+  a4paper,
+  dvipdfm,
+  top=20mm,
+  bottom=20mm,
+  left=20mm,
+  right=20mm
+]{geometry}
+
+\usepackage{nenkinexam}
+\usepackage{enumerate}
+\usepackage{color}
+\usepackage{comment}
+\usepackage{url}
+\usepackage{tocloft}
+
+% 目次の体裁を整える
+\setlength{\cftsecnumwidth}{4em}
+\setlength{\cftsubsecnumwidth}{4em}
+
+%ページ番号
+\pagestyle{plain}
+
+
+\begin{document}
+
+
+
+\ExamCover
+
+\tableofcontents
+
+\newpage
+
+
+\input{DB_chap/chap1.tex}
+\input{DB_chap/chap2.tex}
+
+\end{document}
+
+\begin{comment}
+  %コピー用
+\begin{fillblank}
+  \noindent \textbf{◯DB則}
+  \begin{lawstructure}
+    \begin{lawarticle}{第三条}{確定給付企業年金の実施}
+      
+    \end{lawarticle}
+  \end{lawstructure}
+\end{fillblank}
+\end{comment}
